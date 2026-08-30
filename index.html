@@ -3,14 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>AYUB TOOLKIT</title>
+    <title>AYUB TOOLKIT - Free & Premium Tools Hub</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="AYUB TOOLKIT - Premium toolkit hub with free and premium tools. Get access to exclusive tools, earn XP, unlock premium features. Join our community now!">
+    <meta name="keywords" content="AYUB TOOLKIT, Khan Toolkit, A1 Toolkit, free tools, premium tools, XP system, toolkit hub, Pakistan tools, digital tools, online toolkit">
+    <meta name="author" content="AYUB KHAN">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0066ff">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="AYUB TOOLKIT - Premium Tools Hub">
+    <meta property="og:description" content="Access exclusive free and premium tools. Earn XP, unlock features, and join our growing community. Khan Toolkit | A1 Toolkit">
+    <meta property="og:url" content="https://ayub-toolkit.vercel.app">
+    <meta property="og:site_name" content="AYUB TOOLKIT">
+    <meta property="og:image" content="https://ayub-toolkit.vercel.app/og-image.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AYUB TOOLKIT - Premium Tools Hub">
+    <meta name="twitter:description" content="Free & Premium tools. Khan Toolkit | A1 Toolkit | AYUB TOOLKIT">
+    <meta name="twitter:image" content="https://ayub-toolkit.vercel.app/og-image.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://ayub-toolkit.vercel.app">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👑</text></svg>">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "AYUB TOOLKIT",
+        "alternateName": ["Khan Toolkit", "A1 Toolkit"],
+        "url": "https://ayub-toolkit.vercel.app",
+        "description": "Premium toolkit hub with free and premium tools. Earn XP, unlock exclusive features.",
+        "author": {
+            "@type": "Person",
+            "name": "AYUB KHAN"
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://ayub-toolkit.vercel.app/?search={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    
     <style>
         :root {
             --gold-primary: #ff00ff;
@@ -397,7 +452,7 @@
         .nav-icon i { display: block; margin-bottom: 4px; font-size: 1.2rem; }
         .nav-icon.active { color: var(--gold-primary); transform: translateY(-4px); text-shadow: 0 0 12px var(--glow-gold); }
 
-        .tool-tabs { display: flex; gap: 0.8rem; margin: 1.2rem 0 1rem; }
+        .tool-tabs { display: flex; gap: 0.8rem; margin: 1.2rem 0 1rem; flex-wrap: wrap; }
         .tool-tab {
             flex: 1; text-align: center; padding: 0.7rem;
             background: var(--surface-2);
@@ -408,6 +463,7 @@
             font-size: 0.85rem;
             letter-spacing: 0.5px;
             transition: all 0.2s;
+            min-width: 100px;
         }
         .tool-tab.active { background: var(--btn-gradient); background-size: 200% 200%; color: white; border-color: var(--border-strong); box-shadow: 0 4px 14px var(--glow-gold); }
 
@@ -490,7 +546,7 @@
             text-align: center; font-family: var(--font-hacker);
             letter-spacing: 1px;
         }
-        .user-info-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; gap: 1rem; }
+        .user-info-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; gap: 1rem; flex-wrap: wrap; }
         .user-info-bar h3 { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
         #xpBalanceHeader { color: var(--gold-primary); font-weight: 600; font-family: var(--font-hacker); }
         #themeSwitcher { background: var(--surface-2); border: 1px solid var(--border-default); border-radius: 40px; padding: 0.55rem 1rem; cursor: pointer; font-family: var(--font-hacker); font-size: 0.75rem; color: var(--text-secondary); transition: all 0.2s; }
@@ -772,6 +828,7 @@
             .sidebar { width: 260px; }
             .banner-image { max-height: 150px; }
             .tool-image { max-height: 120px; }
+            .tool-tabs { gap: 0.4rem; }
         }
 
         ::-webkit-scrollbar { width: 4px; }
@@ -787,7 +844,7 @@
         <div class="auth-card">
             <div class="auth-icon"><i class="fas fa-crown"></i></div>
             <div class="brand-glow blur-animation" style="font-size:1.8rem;">AYUB TOOLKIT</div>
-            <p style="opacity:0.7; margin:0.6rem 0; font-family: var(--font-hacker); font-size:0.75rem; letter-spacing:1px;">All in one toolkit</p>
+            <p style="opacity:0.7; margin:0.6rem 0; font-family: var(--font-hacker); font-size:0.75rem; letter-spacing:1px;">Khan Toolkit | A1 Toolkit | All in one toolkit</p>
             <div class="tab-group">
                 <div class="tab-btn active" onclick="uiAuth.showLogin()">Login</div>
                 <div class="tab-btn" onclick="uiAuth.showRegister()">Register</div>
@@ -813,7 +870,7 @@
     <div id="mainApp" class="hidden">
         <div class="top-brand-bar">
             <div class="brand-glow blur-animation"><i class="fas fa-crown"></i> AYUB TOOLKIT</div>
-            <div class="brand-sub"> Premium Toolkit Hub</div>
+            <div class="brand-sub"> Khan Toolkit | A1 Toolkit | Premium Hub</div>
         </div>
         
         <div class="user-info-bar">
@@ -962,6 +1019,7 @@ const firebaseConfig = {
     let loginAttempts = 0;
     let lastLoginAttempt = 0;
     let searchTimeout = null;
+    let currentReferralCode = null;
     
     function showToast(msg) { 
         const t = document.getElementById('toastMsg'); 
@@ -1057,18 +1115,38 @@ const firebaseConfig = {
                 return; 
             } 
             let bonusXp = 100;
+            let referredBy = null;
+            
+            // Check referral code
             if (referralCode) {
                 const referrerSnap = await db.ref(`users/${referralCode}`).once('value');
                 if (referrerSnap.exists()) {
                     bonusXp += 30;
+                    referredBy = referralCode;
                     const referrerXp = referrerSnap.val().xp || 0;
                     await db.ref(`users/${referralCode}`).update({ xp: referrerXp + 30 });
                     logEvent('referral_used', { referrer: referralCode });
                 }
+            } else if (currentReferralCode) {
+                const referrerSnap = await db.ref(`users/${currentReferralCode}`).once('value');
+                if (referrerSnap.exists()) {
+                    bonusXp += 30;
+                    referredBy = currentReferralCode;
+                    const referrerXp = referrerSnap.val().xp || 0;
+                    await db.ref(`users/${currentReferralCode}`).update({ xp: referrerXp + 30 });
+                    logEvent('referral_used', { referrer: currentReferralCode });
+                }
             }
-            await db.ref(`users/${uid}`).set({ name, email, password: pass, xp: bonusXp, createdAt: Date.now(), referralCode: uid }); 
+            
+            const userData = { 
+                name, email, password: pass, xp: bonusXp, createdAt: Date.now(), 
+                referralCode: uid,
+                referredBy: referredBy
+            };
+            
+            await db.ref(`users/${uid}`).set(userData); 
             showToast(`✅ Registered! +${bonusXp} XP`); 
-            logEvent('sign_up', { method: 'email' });
+            logEvent('sign_up', { method: 'email', referral: referredBy ? true : false });
             this.afterLogin(uid, name, email); 
         },
         async loginUser() { 
@@ -1162,7 +1240,7 @@ const firebaseConfig = {
                     }
                     const matches = allToolsArray.filter(t => t.name.toLowerCase().includes(query)).slice(0, 5);
                     if (matches.length > 0) {
-                        dropdown.innerHTML = matches.map(t => `<div class="autocomplete-item" onclick="userApp.selectAutocomplete('${t.name}')">${t.name}</div>`).join('');
+                        dropdown.innerHTML = matches.map(t => `<div class="autocomplete-item" onclick="userApp.selectAutocomplete('${t.name.replace(/'/g, "\\'")}')">${t.name}</div>`).join('');
                         dropdown.classList.add('open');
                     } else {
                         dropdown.classList.remove('open');
@@ -1194,10 +1272,12 @@ const firebaseConfig = {
             }, 1500);
         },
         copyReferralLink() {
-            const referralLink = `https://ayub-toolkit.firebaseapp.com/?ref=${currentUser.uid}`;
+            const referralLink = `https://ayub-toolkit.vercel.app/?ref=${currentUser.uid}`;
             navigator.clipboard.writeText(referralLink).then(() => {
                 showToast('✅ Referral link copied! Share with friends.');
                 logEvent('referral_link_copied');
+            }).catch(() => {
+                showToast('❌ Failed to copy. Link: ' + referralLink);
             });
         },
         openForgotPassword() {
@@ -1242,7 +1322,7 @@ const firebaseConfig = {
                 html += tools.map(tool => this.renderToolCard(tool)).join('');
                 html += '</div>';
             }
-            grid.innerHTML = html;
+            grid.innerHTML = html || '<div style="text-align:center; padding:2rem; color:var(--text-muted);">No categories found</div>';
         },
         fetchData() { 
             // Skeleton loading
@@ -1289,7 +1369,7 @@ const firebaseConfig = {
                     <div class="banner-slider-container" style="margin-bottom: 0.8rem;">
                         <img src="${banner.image}" 
                              class="banner-image" 
-                             alt="Banner" 
+                             alt="${banner.title || 'Banner'}"
                              loading="lazy"
                              onclick="window.open('${redirectUrl}', '_blank')"
                              onerror="this.src='https://placehold.co/600x200/1a2e2c/2dd4bf?text=Image+Not+Found'; this.style.opacity='0.7'">
@@ -1317,7 +1397,7 @@ const firebaseConfig = {
             const toolImage = tool.image && tool.image.trim() !== '' ? tool.image : 'https://placehold.co/300x200/1a2e2c/2dd4bf?text=Tool+Image';
             const categoryTag = tool.category ? `<span class="badge-free" style="margin-left:8px;">${tool.category}</span>` : '';
             return `<div class="tool-card">
-                        <img src="${toolImage}" class="tool-image" loading="lazy" onerror="this.src='https://placehold.co/300x200/1a2e2c/2dd4bf?text=No+Image'">
+                        <img src="${toolImage}" class="tool-image" loading="lazy" alt="${tool.name}" onerror="this.src='https://placehold.co/300x200/1a2e2c/2dd4bf?text=No+Image'">
                         <div><h3 style="font-size:1rem; color:var(--text-primary); font-weight:600;">${tool.name}${categoryTag}</h3><p style="font-size:0.7rem; opacity:0.7; color:var(--text-secondary);">${tool.description || ''}</p></div>
                         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.8rem;">
                             <span>${freeTag ? '<span class="badge-free">FREE</span>' : `<i class="fas fa-coins" style="color:var(--gold-primary);"></i> ${tool.xpPrice || 100} XP`}</span>
@@ -1424,9 +1504,15 @@ const firebaseConfig = {
     const urlParams = new URLSearchParams(window.location.search);
     const referralParam = urlParams.get('ref');
     if (referralParam) {
+        currentReferralCode = referralParam;
         localStorage.setItem('pendingReferral', referralParam);
         const regReferralInput = document.getElementById('regReferral');
         if (regReferralInput) regReferralInput.value = referralParam;
+        
+        // Show register tab if referral present
+        setTimeout(() => {
+            document.querySelectorAll('.tab-btn')[1].click();
+        }, 500);
     }
     
     window.uiAuth = uiAuth; 
