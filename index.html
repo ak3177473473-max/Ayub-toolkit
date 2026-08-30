@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>AYUB TOOLKIT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+    <style>
+        :root {
+            --gold-primary: #ff00ff;
+            --gold-light: #00ffff;
+            --gold-pale: #ff66ff;
+            --gold-dark: #cc00cc;
+            --gold-bg: #f5f5f7;
+            --gold-card: rgba(255, 255, 255, 0.85);
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a6a;
+            --text-muted: #8888aa;
+            --border-subtle: rgba(255, 0, 255, 0.08);
+            --border-default: rgba(255, 0, 255, 0.18);
+            --border-strong: rgba(255, 0, 255, 0.45);
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --input-bg: rgba(255, 255, 255, 0.85);
+            --input-text: #1a1a2e;
+            --input-placeholder: #8888aa;
+            --bg-elements-opacity: 0.35;
+            --hover-glow: rgba(255, 0, 255, 0.3);
+            --btn-gradient: linear-gradient(135deg, #ff00ff 0%, #00ffff 50%, #ff00cc 100%);
+            --btn-text: #ffffff;
+            --surface-0: #f5f5f7;
+            --surface-1: #ffffff;
+            --surface-2: #f0f0f5;
+            --surface-3: #e8e8f0;
+            --surface-4: #dcdce8;
+            --glow-gold: rgba(255, 0, 255, 0.15);
+            --glow-goldsm: rgba(255, 0, 255, 0.06);
+            --accent-rgb: 255, 0, 255;
+            --cyan-rgb: 0, 255, 255;
+            --font-serif: 'Instrument Serif', Georgia, serif;
+            --font-sans: 'Geist', system-ui, sans-serif;
+            --font-mono: 'Geist Mono', monospace;
+            --font-hacker: 'Share Tech Mono', monospace;
+            --radius: 12px;
+            --radius-lg: 18px;
+            --radius-xl: 24px;
+            --ease: cubic-bezier(.16, 1, .3, 1);
+            --tr: 0.18s ease;
+        }
+
+        body.ice {
+            --surface-0: #f0f8ff;
+            --surface-1: #ffffff;
+            --surface-2: #f0faff;
+            --surface-3: #e0f0ff;
+            --surface-4: #d0e8ff;
+            --border-subtle: rgba(0, 100, 255, 0.08);
+            --border-default: rgba(0, 100, 255, 0.18);
+            --border-strong: rgba(0, 100, 255, 0.45);
+            --text-primary: #0a1a2e;
+            --text-secondary: #2a4a6a;
+            --text-muted: #6688aa;
+            --glow-gold: rgba(0, 100, 255, 0.15);
+            --glow-goldsm: rgba(0, 100, 255, 0.06);
+            --gold-primary: #0066ff;
+            --gold-light: #00ccff;
+            --gold-pale: #66aaff;
+            --gold-dark: #0044cc;
+            --accent-rgb: 0, 100, 255;
+            --cyan-rgb: 0, 200, 255;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --input-bg: rgba(255, 255, 255, 0.95);
+            --input-text: #0a1a2e;
+            --input-placeholder: #6688aa;
+        }
+
+        body.dark {
+            --surface-0: #0d0d1a;
+            --surface-1: #151525;
+            --surface-2: #1c1c30;
+            --surface-3: #242438;
+            --surface-4: #2c2c44;
+            --border-subtle: rgba(255, 0, 255, 0.1);
+            --border-default: rgba(255, 0, 255, 0.25);
+            --border-strong: rgba(255, 0, 255, 0.55);
+            --text-primary: #f0f0ff;
+            --text-secondary: #b0b0d0;
+            --text-muted: #7a7a9a;
+            --glow-gold: rgba(255, 0, 255, 0.22);
+            --glow-goldsm: rgba(255, 0, 255, 0.08);
+            --gold-primary: #ff00ff;
+            --gold-light: #00ffff;
+            --gold-pale: #ff66ff;
+            --gold-dark: #cc00cc;
+            --accent-rgb: 255, 0, 255;
+            --cyan-rgb: 0, 255, 255;
+            --card-bg: rgba(20, 20, 35, 0.75);
+            --input-bg: rgba(10, 10, 25, 0.7);
+            --input-text: #f0f0ff;
+            --input-placeholder: #666688;
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; -webkit-font-smoothing:antialiased; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--surface-0);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background .3s var(--ease), color .3s var(--ease);
+            position: relative;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.03) 2px,
+                rgba(0, 0, 0, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .blur-animation {
+            font-weight: bold;
+            animation: blurInOut 2s infinite;
+        }
+        @keyframes blurInOut {
+            0%, 100% { filter: blur(0); }
+            50% { filter: blur(4px); }
+        }
+
+        .blob {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.55;
+            transition: background .3s;
+        }
+        .blob1 { width: 480px; height: 360px; top: -100px; left: -80px; background: radial-gradient(ellipse, rgba(var(--accent-rgb), 0.12) 0%, transparent 70%); }
+        .blob2 { width: 380px; height: 380px; bottom: -80px; right: -60px; background: radial-gradient(ellipse, rgba(var(--cyan-rgb), 0.1) 0%, transparent 70%); }
+
+        .container { max-width: 580px; margin: 0 auto; padding: 1.2rem 1rem 5.5rem; position: relative; z-index: 1; }
+
+        .top-brand-bar {
+            background: var(--card-bg);
+            backdrop-filter: blur(18px) saturate(1.5);
+            -webkit-backdrop-filter: blur(18px) saturate(1.5);
+            border: 1px solid var(--border-default);
+            border-radius: 1.8rem;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.4rem;
+            text-align: center;
+            box-shadow: 0 0 0 1px var(--border-subtle), 0 15px 30px rgba(0,0,0,0.18), 0 0 30px var(--glow-goldsm);
+            position: relative;
+            overflow: hidden;
+            transition: background .3s, border-color .3s, box-shadow .3s;
+        }
+        .top-brand-bar::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 15%; right: 15%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), var(--gold-light), transparent);
+            opacity: .8;
+            animation: borderGlow 3s ease-in-out infinite;
+        }
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+        .brand-glow {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 500;
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-light), var(--gold-pale));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            text-shadow: 0 0 20px rgba(var(--accent-rgb), 0.3);
+        }
+        .brand-sub {
+            font-family: var(--font-hacker);
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 4px;
+            opacity: 1;
+        }
+
+        .auth-wrapper { min-height: 80vh; display: flex; align-items: center; justify-content: center; }
+        .auth-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px) saturate(1.4);
+            -webkit-backdrop-filter: blur(16px) saturate(1.4);
+            border: 1px solid var(--border-strong);
+            border-radius: 2.2rem;
+            padding: 2.4rem 1.8rem;
+            width: 100%;
+            max-width: 430px;
+            text-align: center;
+            box-shadow: 0 0 0 1px var(--border-subtle), 0 25px 50px rgba(0,0,0,0.25), 0 0 45px var(--glow-goldsm);
+            position: relative;
+            overflow: hidden;
+            transition: background .3s, border-color .3s, box-shadow .3s;
+        }
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 12%; right: 12%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), var(--gold-light), transparent);
+            opacity: .9;
+        }
+        .auth-icon {
+            width: 68px; height: 68px;
+            background: var(--btn-gradient);
+            background-size: 200% 200%;
+            border-radius: 22px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.2rem;
+            box-shadow: 0 0 18px var(--glow-gold), 0 4px 10px rgba(0,0,0,0.2);
+            transition: box-shadow .3s;
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+        @keyframes iconPulse {
+            0%, 100% { box-shadow: 0 0 18px var(--glow-gold), 0 4px 10px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 0 28px var(--glow-gold), 0 4px 15px rgba(0,0,0,0.3); }
+        }
+        .auth-icon i { font-size: 2rem; color: #fff; }
+
+        .tab-group {
+            display: flex; gap: 0.7rem;
+            margin: 1.6rem 0 1.4rem;
+            background: var(--surface-2);
+            border: 1px solid var(--border-subtle);
+            border-radius: 3rem;
+            padding: 0.3rem;
+            transition: background .3s, border-color .3s;
+        }
+        .tab-btn {
+            flex: 1; padding: 0.7rem 0.5rem;
+            border-radius: 2.5rem;
+            font-weight: 600; cursor: pointer;
+            background: transparent; color: var(--text-secondary);
+            border: 1px solid transparent;
+            font-family: var(--font-hacker);
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            transition: all 0.2s var(--ease);
+        }
+        .tab-btn.active {
+            background: var(--btn-gradient);
+            background-size: 200% 200%;
+            color: white;
+            border-color: var(--border-strong);
+            box-shadow: 0 4px 14px var(--glow-gold);
+        }
+
+        .input-group { position: relative; margin-bottom: 1rem; }
+        .input-group i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--gold-primary); font-size: 0.9rem; transition: color .2s; }
+        .input-group input {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 2.8rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border-default);
+            border-radius: 1.2rem;
+            color: var(--input-text);
+            font-size: 0.9rem;
+            font-family: var(--font-hacker);
+            outline: none;
+            transition: all 0.2s;
+        }
+        .input-group input::placeholder { color: var(--input-placeholder); font-size: 0.8rem; }
+        .input-group input:focus { border-color: var(--gold-primary); box-shadow: 0 0 0 3px var(--glow-goldsm); background: var(--surface-4); }
+
+        .btn-auth, .settings-btn, .modal-btn-primary, .modal-btn-secondary {
+            padding: 0.9rem 1.5rem;
+            border-radius: 1.2rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: var(--font-hacker);
+            letter-spacing: 0.5px;
+        }
+        .btn-auth {
+            width: 100%;
+            background: var(--btn-gradient);
+            background-size: 200% 200%;
+            color: white;
+            border: 1px solid var(--border-strong);
+            box-shadow: 0 1px 0 rgba(255,255,255,0.12) inset, 0 6px 18px var(--glow-gold);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-auth::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        .btn-auth:hover { transform: translateY(-2px); box-shadow: 0 1px 0 rgba(255,255,255,0.12) inset, 0 10px 26px var(--hover-glow); }
+        .settings-btn { background: var(--btn-gradient); background-size: 200% 200%; color: white; width: 100%; margin-bottom: 0.8rem; border: 1px solid var(--border-strong); box-shadow: 0 4px 14px var(--glow-gold); }
+        .settings-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px var(--hover-glow); }
+        .modal-btn-primary { background: var(--btn-gradient); background-size: 200% 200%; color: white; flex: 1; border: 1px solid var(--border-strong); }
+        .modal-btn-secondary { background: var(--surface-2); color: var(--text-secondary); border: 1px solid var(--border-subtle); flex: 1; }
+        .modal-btn-secondary:hover { border-color: var(--border-strong); color: var(--gold-primary); }
+
+        .tool-unlock-btn {
+            background: var(--btn-gradient);
+            background-size: 200% 200%;
+            color: white;
+            border: 1px solid var(--border-strong);
+            padding: 0.45rem 1.3rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font-hacker);
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 10px var(--glow-goldsm);
+            transition: all 0.2s;
+        }
+        .tool-unlock-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px var(--glow-gold); }
+
+        .glass-card, .bottom-nav, .modal-window, .tool-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(14px) saturate(1.4);
+            -webkit-backdrop-filter: blur(14px) saturate(1.4);
+            border: 1px solid var(--border-default);
+            border-radius: 1.6rem;
+            box-shadow: 0 0 0 1px var(--border-subtle), 0 18px 35px rgba(0,0,0,0.18), 0 0 28px var(--glow-goldsm);
+            transition: background .3s, border-color .3s, box-shadow .3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before, .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 12%; right: 12%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), var(--gold-light), transparent);
+            opacity: .6;
+            pointer-events: none;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            max-width: 560px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            padding: 0.7rem 0.5rem;
+            border-radius: 1.8rem 1.8rem 0 0;
+            z-index: 100;
+            border-bottom: none;
+            border-left: 1px solid var(--border-default);
+            border-right: 1px solid var(--border-default);
+            box-shadow: 0 -8px 25px rgba(0,0,0,0.3), 0 0 30px var(--glow-goldsm);
+        }
+        .nav-icon {
+            text-align: center; cursor: pointer;
+            color: var(--text-muted);
+            transition: 0.2s;
+            font-family: var(--font-hacker);
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+            flex: 1;
+        }
+        .nav-icon i { display: block; margin-bottom: 4px; font-size: 1.2rem; }
+        .nav-icon.active { color: var(--gold-primary); transform: translateY(-4px); text-shadow: 0 0 12px var(--glow-gold); }
+
+        .tool-tabs { display: flex; gap: 0.8rem; margin: 1.2rem 0 1rem; }
+        .tool-tab {
+            flex: 1; text-align: center; padding: 0.7rem;
+            background: var(--surface-2);
+            border-radius: 2rem; font-weight: 600; cursor: pointer;
+            border: 1px solid var(--border-default);
+            color: var(--text-secondary);
+            font-family: var(--font-hacker);
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+        }
+        .tool-tab.active { background: var(--btn-gradient); background-size: 200% 200%; color: white; border-color: var(--border-strong); box-shadow: 0 4px 14px var(--glow-gold); }
+
+        .tool-card { padding: 1rem; margin-bottom: 1.2rem; }
+        .tool-image {
+            width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            border-radius: 1.1rem; margin-bottom: 0.8rem;
+            background: var(--surface-2);
+            border: 1px solid var(--border-subtle);
+            transition: border-color .2s;
+            display: block;
+        }
+        .hero-xp {
+            font-size: 3rem; font-weight: 800;
+            color: var(--gold-primary);
+            font-family: var(--font-hacker);
+            text-shadow: 0 0 16px var(--glow-gold), 0 0 30px rgba(var(--accent-rgb), 0.2);
+            letter-spacing: -1px;
+        }
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            visibility: hidden; opacity: 0;
+            transition: 0.25s;
+            z-index: 2000;
+        }
+        .modal-overlay.open { visibility: visible; opacity: 1; }
+        .modal-window {
+            padding: 1.8rem;
+            width: 85%;
+            max-width: 340px;
+            text-align: center;
+            border-radius: 2rem;
+            border: 1px solid var(--border-strong);
+            box-shadow: 0 0 0 1px var(--border-subtle), 0 30px 60px rgba(0,0,0,0.4), 0 0 50px var(--glow-goldsm);
+            position: relative;
+        }
+        .modal-window::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 10%; right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-primary), var(--gold-light), transparent);
+            opacity: .8;
+        }
+        .search-bar { position: relative; margin-bottom: 1rem; }
+        .search-bar i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--gold-primary); }
+        .search-bar input {
+            padding-left: 42px; width: 100%; padding: 0.85rem 0.8rem 0.85rem 2.6rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border-default);
+            border-radius: 1.2rem; color: var(--input-text);
+            font-family: var(--font-hacker);
+            outline: none;
+            transition: all 0.2s;
+        }
+        .search-bar input::placeholder { color: var(--input-placeholder); }
+        .search-bar input:focus { border-color: var(--gold-primary); box-shadow: 0 0 0 3px var(--glow-goldsm); }
+
+        .badge-free {
+            background: var(--glow-goldsm);
+            border: 1px solid var(--border-strong);
+            padding: 0.25rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-family: var(--font-hacker);
+            letter-spacing: 1px;
+            color: var(--gold-primary);
+        }
+        .hidden { display: none !important; }
+        .credit-text {
+            margin-top: 1rem; padding-top: 0.9rem;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 0.7rem; color: var(--text-muted);
+            text-align: center; font-family: var(--font-hacker);
+            letter-spacing: 1px;
+        }
+        .user-info-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; gap: 1rem; }
+        .user-info-bar h3 { font-family: var(--font-sans); font-weight: 600; font-size: 1.1rem; color: var(--text-primary); }
+        #xpBalanceHeader { color: var(--gold-primary); font-weight: 600; font-family: var(--font-hacker); }
+        #themeSwitcher { background: var(--surface-2); border: 1px solid var(--border-default); border-radius: 40px; padding: 0.55rem 1rem; cursor: pointer; font-family: var(--font-hacker); font-size: 0.75rem; color: var(--text-secondary); transition: all 0.2s; }
+        #themeSwitcher:hover { border-color: var(--border-strong); color: var(--gold-primary); background: var(--glow-goldsm); }
+
+        .banner-slider-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1rem;
+            border-radius: 1.2rem;
+            overflow: hidden;
+            border: 1px solid var(--border-default);
+            box-shadow: 0 0 0 1px var(--border-subtle), 0 15px 30px rgba(0,0,0,0.18);
+            transition: border-color .2s;
+            background: var(--surface-2);
+        }
+        .banner-image {
+            width: 100%;
+            max-height: 220px;
+            object-fit: contain;
+            border-radius: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: block;
+            margin: 0 auto;
+        }
+        .banner-image:hover { transform: scale(0.98); }
+
+        .theme-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: var(--surface-1);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--radius-lg);
+            padding: 0.5rem;
+            min-width: 180px;
+            display: none;
+            z-index: 1500;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4), 0 0 30px var(--glow-goldsm);
+            flex-direction: column;
+            gap: 2px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .theme-dropdown.open { display: flex; }
+        .theme-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 14px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-family: var(--font-hacker);
+            text-align: left;
+            width: 100%;
+        }
+        .theme-option:hover { background: var(--surface-3); color: var(--text-primary); }
+        .theme-option.active { background: var(--glow-goldsm); color: var(--gold-primary); font-weight: 600; }
+        .theme-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; border: 2px solid rgba(255,255,255,0.3); }
+        .theme-dot.dark-dot { background: #0d0d1a; }
+        .theme-dot.ice-dot { background: #f0f8ff; }
+
+        .theme-switcher-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Sidebar styles */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(6px);
+            z-index: 1800;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+        }
+        .sidebar-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--surface-1);
+            border-left: 1px solid var(--border-strong);
+            z-index: 1900;
+            transform: translateX(100%);
+            transition: transform 0.3s var(--ease);
+            padding: 1.5rem 1rem;
+            overflow-y: auto;
+            box-shadow: 0 0 30px var(--glow-goldsm);
+        }
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .sidebar-header h3 {
+            font-family: var(--font-hacker);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+        .sidebar-close {
+            background: var(--surface-2);
+            border: 1px solid var(--border-default);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        .sidebar-close:hover {
+            border-color: var(--border-strong);
+            color: var(--gold-primary);
+        }
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+        .sidebar-section-title {
+            font-family: var(--font-hacker);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+        }
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 0.9rem;
+            background: var(--surface-2);
+            border: 1px solid var(--border-subtle);
+            border-radius: 0.9rem;
+            margin-bottom: 0.6rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: var(--font-hacker);
+            font-size: 0.8rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+        }
+        .sidebar-item:hover {
+            border-color: var(--border-strong);
+            color: var(--gold-primary);
+            background: var(--glow-goldsm);
+        }
+        .sidebar-item i {
+            width: 18px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--gold-primary);
+        }
+        .sidebar-xp-btn {
+            background: var(--btn-gradient);
+            background-size: 200% 200%;
+            color: white;
+            border: 1px solid var(--border-strong);
+            padding: 0.5rem 1rem;
+            border-radius: 0.8rem;
+            font-family: var(--font-hacker);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: auto;
+            white-space: nowrap;
+        }
+        .sidebar-xp-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px var(--glow-gold);
+        }
+        .sidebar-user-info {
+            margin-bottom: 0.5rem;
+        }
+        .sidebar-user-info .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 0.8rem;
+        }
+        .sidebar-user-info .info-label {
+            color: var(--text-muted);
+            font-family: var(--font-hacker);
+        }
+        .sidebar-user-info .info-value {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-family: var(--font-hacker);
+        }
+
+        /* Skeleton loading */
+        .skeleton {
+            background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface-3) 50%, var(--surface-2) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-shimmer 1.5s infinite;
+            border-radius: 1rem;
+        }
+        @keyframes skeleton-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Autocomplete dropdown */
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--surface-1);
+            border: 1px solid var(--border-strong);
+            border-radius: 0.8rem;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        .autocomplete-dropdown.open { display: block; }
+        .autocomplete-item {
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            font-family: var(--font-hacker);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: background 0.2s;
+        }
+        .autocomplete-item:hover {
+            background: var(--glow-goldsm);
+            color: var(--gold-primary);
+        }
+
+        /* Badge styles */
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-family: var(--font-hacker);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .level-bronze { background: #cd7f32; color: white; }
+        .level-silver { background: #c0c0c0; color: #1a1a2e; }
+        .level-gold { background: #ffd700; color: #1a1a2e; }
+        .level-diamond { background: #b9f2ff; color: #1a1a2e; }
+
+        @media (max-width: 500px) {
+            .brand-glow { font-size: 1.5rem; }
+            .auth-card { padding: 2rem 1.5rem; }
+            .top-brand-bar { padding: 0.9rem 1rem; }
+            .sidebar { width: 260px; }
+            .banner-image { max-height: 150px; }
+            .tool-image { max-height: 120px; }
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--surface-0); }
+        ::-webkit-scrollbar-thumb { background: var(--surface-4); border-radius: 4px; }
+    </style>
+</head>
+<body>
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="container" id="appRoot">
+    <div id="authWrapper" class="auth-wrapper">
+        <div class="auth-card">
+            <div class="auth-icon"><i class="fas fa-crown"></i></div>
+            <div class="brand-glow blur-animation" style="font-size:1.8rem;">AYUB TOOLKIT</div>
+            <p style="opacity:0.7; margin:0.6rem 0; font-family: var(--font-hacker); font-size:0.75rem; letter-spacing:1px;">All in one toolkit</p>
+            <div class="tab-group">
+                <div class="tab-btn active" onclick="uiAuth.showLogin()">Login</div>
+                <div class="tab-btn" onclick="uiAuth.showRegister()">Register</div>
+            </div>
+            <div id="loginPanel">
+                <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="loginEmail" placeholder="Email address"></div>
+                <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="loginPass" placeholder="Password"></div>
+                <button class="btn-auth" onclick="uiAuth.loginUser()"><i class="fas fa-arrow-right"></i> Access Toolkit</button>
+                <p style="margin-top:0.8rem;"><span id="forgotPasswordBtn" style="color:var(--gold-primary); cursor:pointer; font-family: var(--font-hacker); font-size:0.75rem;">Forgot Password?</span></p>
+            </div>
+            <div id="registerPanel" class="hidden">
+                <div class="input-group"><i class="fas fa-user"></i><input type="text" id="regName" placeholder="Full name"></div>
+                <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="regEmail" placeholder="Email"></div>
+                <div class="input-group"><i class="fas fa-lock"></i><input type="password" id="regPass" placeholder="Create password"></div>
+                <div class="input-group"><i class="fas fa-link"></i><input type="text" id="regReferral" placeholder="Referral Code (optional)"></div>
+                <button class="btn-auth" onclick="uiAuth.registerUser()">✨ Get Started (100 XP + 30 Referral)</button>
+                <p style="font-size:0.7rem; margin-top:0.8rem; font-family: var(--font-hacker);">🎁 Free 100 XP + 30 XP referral bonus</p>
+            </div>
+            <p id="authMsg" style="color:#ff6b6b; font-size:0.75rem; margin-top:1rem; font-family: var(--font-hacker);"></p>
+        </div>
+    </div>
+
+    <div id="mainApp" class="hidden">
+        <div class="top-brand-bar">
+            <div class="brand-glow blur-animation"><i class="fas fa-crown"></i> AYUB TOOLKIT</div>
+            <div class="brand-sub"> Premium Toolkit Hub</div>
+        </div>
+        
+        <div class="user-info-bar">
+            <div>
+                <h3 id="userNameDisplay">User</h3>
+                <span id="xpBalanceHeader" style="color:var(--gold-primary); font-weight:600;">0 XP</span>
+                <span id="levelBadge" class="level-badge level-bronze" style="margin-left:8px;">Bronze</span>
+            </div>
+            <div class="theme-switcher-wrap">
+                <div id="themeSwitcher" style="background:var(--surface-2); border-radius: 40px; padding:0.55rem 0.9rem; cursor:pointer; border:1px solid var(--border-default);"><i class="fas fa-adjust"></i> Mode</div>
+                <div id="themeDropdown" class="theme-dropdown">
+                    <button class="theme-option" onclick="setTheme('dark')"><span class="theme-dot dark-dot"></span> Dark</button>
+                    <button class="theme-option" onclick="setTheme('ice')"><span class="theme-dot ice-dot"></span> Ice Blue</button>
+                </div>
+            </div>
+        </div>
+        <div class="glass-card" style="text-align:center; padding:1.5rem; margin-bottom:1rem;">
+            <p style="font-family: var(--font-hacker); font-size:0.75rem; letter-spacing:1px;">💥 YOUR XP___Required for premium Tools</p>
+            <div class="hero-xp" id="heroXpValue">0</div>
+            <p><span id="contactAdminBtn" style="color:#22c55e; cursor:pointer; font-family: var(--font-hacker);">📞 Need XP? Contact admin</span></p>
+            <button class="tool-unlock-btn" onclick="userApp.showXpPackages()" style="margin-top:0.5rem;"><i class="fas fa-coins"></i> Buy XP Packages</button>
+        </div>
+        
+        <!-- BANNER SLIDER SECTION - FIXED -->
+        <div id="bannerSlider" class="banner-slider-container"></div>
+        
+        <div class="tool-tabs">
+            <div class="tool-tab active" onclick="userApp.showFree()">🎁 Free Tools</div>
+            <div class="tool-tab" onclick="userApp.showPaid()">💎 Premium Tools </div>
+            <div class="tool-tab" onclick="userApp.showCategories()">📂 Categories</div>
+        </div>
+        <div class="search-bar" style="position:relative;">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchToolsInput" placeholder="      Search tools..." oninput="userApp.renderTools()" autocomplete="off">
+            <div id="autocompleteDropdown" class="autocomplete-dropdown"></div>
+        </div>
+        <div id="toolsGrid"></div>
+    </div>
+    <div id="bottomNav" class="bottom-nav hidden">
+        <div class="nav-icon" onclick="userApp.goHome()"><i class="fas fa-home"></i><div>Home</div></div>
+        <div class="nav-icon" onclick="userApp.openSidebar()"><i class="fas fa-bars"></i><div>Menu</div></div>
+    </div>
+</div>
+
+<!-- Sidebar Overlay -->
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="userApp.closeSidebar()"></div>
+<div id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+        <h3>USER DETAILS</h3>
+        <button class="sidebar-close" onclick="userApp.closeSidebar()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">Account Info</div>
+        <div class="sidebar-user-info">
+            <div class="info-row">
+                <span class="info-label">My Name:</span>
+                <span class="info-value" id="sidebarName">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">My XP:</span>
+                <span class="info-value" id="sidebarXp">0 XP</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Level:</span>
+                <span class="info-value" id="sidebarLevel">Bronze</span>
+            </div>
+        </div>
+        <button class="sidebar-xp-btn" onclick="window.open('https://wa.me/923177473473', '_blank')" style="width:100%; margin-top:0.8rem; justify-content:center;">
+            <i class="fas fa-coins"></i> Buy XP
+        </button>
+        <button class="sidebar-xp-btn" onclick="userApp.copyReferralLink()" style="width:100%; margin-top:0.5rem; justify-content:center; background:linear-gradient(135deg, #22c55e, #16a34a);">
+            <i class="fas fa-share-alt"></i> Copy Referral Link (+30 XP)
+        </button>
+    </div>
+    
+    <div class="sidebar-section">
+        <div class="sidebar-section-title">JOIN US 💫</div>
+        <a href="https://whatsapp.com/channel/0029Vb6RX1XEQIal7mdufD2e" target="_blank" class="sidebar-item">
+            <i class="fas fa-bullhorn"></i> Updates Channel
+        </a>
+        <a href="https://whatsapp.com/channel/0029VbDatj496H4Vjh9WVt3y" target="_blank" class="sidebar-item">
+            <i class="fas fa-globe"></i> My Telenor Answers
+        </a>
+        <a href="https://wa.me/923177473473" target="_blank" class="sidebar-item">
+            <i class="fas fa-user-tie"></i> Developer
+        </a>
+    </div>
+
+    <div class="sidebar-section" style="margin-top:auto;">
+        <button class="sidebar-item" onclick="userApp.logoutUser()" style="border-color: rgba(255,0,0,0.3); color: #ff6b6b;">
+            <i class="fas fa-sign-out-alt" style="color: #ff6b6b;"></i> Logout
+        </button>
+    </div>
+</div>
+
+<!-- XP Packages Modal -->
+<div id="xpPackagesModal" class="modal-overlay">
+    <div class="modal-window" style="max-width:380px;">
+        <i class="fas fa-coins" style="font-size:2rem;color:var(--gold-primary);"></i>
+        <h3 style="margin:0.8rem 0; font-family: var(--font-hacker);">XP Packages</h3>
+        <p style="color:var(--text-secondary); font-size:0.8rem; margin-bottom:1rem;">Pay via Easypaisa: <strong>03177473473</strong></p>
+        <div style="display:flex; flex-direction:column; gap:0.8rem;">
+            <button class="settings-btn" onclick="userApp.purchaseXp(100)" style="margin-bottom:0;"><i class="fas fa-coins"></i> 100 XP - Rs. 50</button>
+            <button class="settings-btn" onclick="userApp.purchaseXp(500)" style="margin-bottom:0;"><i class="fas fa-coins"></i> 500 XP - Rs. 200</button>
+            <button class="settings-btn" onclick="userApp.purchaseXp(1000)" style="margin-bottom:0;"><i class="fas fa-coins"></i> 1000 XP - Rs. 350</button>
+            <button class="settings-btn" onclick="userApp.purchaseXp(5000)" style="margin-bottom:0;"><i class="fas fa-coins"></i> 5000 XP - Rs. 1500</button>
+        </div>
+        <p style="font-size:0.7rem; margin-top:1rem; color:var(--text-muted);">Send payment to Easypaisa number then contact admin</p>
+        <button class="modal-btn-secondary" onclick="userApp.closeModal('xpPackagesModal')" style="margin-top:1rem;">Close</button>
+    </div>
+</div>
+
+<!-- Forgot Password Modal -->
+<div id="forgotPasswordModal" class="modal-overlay">
+    <div class="modal-window">
+        <i class="fas fa-key" style="font-size:2rem;color:var(--gold-primary);"></i>
+        <h3 style="margin:0.8rem 0; font-family: var(--font-hacker);">Reset Password</h3>
+        <p style="color:var(--text-secondary); font-size:0.8rem; margin-bottom:1rem;">Enter your email to receive reset instructions</p>
+        <div class="input-group"><i class="fas fa-envelope"></i><input type="email" id="resetEmail" placeholder="Email address"></div>
+        <button class="btn-auth" onclick="uiAuth.resetPassword()"><i class="fas fa-paper-plane"></i> Send Reset Link</button>
+        <button class="modal-btn-secondary" onclick="userApp.closeModal('forgotPasswordModal')" style="margin-top:0.8rem;">Close</button>
+    </div>
+</div>
+
+<div id="buyModal" class="modal-overlay"><div class="modal-window"><i class="fas fa-coins" style="font-size:2rem;color:var(--gold-primary);"></i><h3 style="margin:1rem 0; font-family: var(--font-hacker);">Confirm unlock</h3><p style="color:var(--text-secondary);">Spend <strong id="buyXpCost" style="color:var(--gold-primary);">0</strong> XP ?</p><div style="display:flex; gap:1rem; margin-top:1.5rem;"><button class="modal-btn-primary" onclick="userApp.confirmPurchase()">Unlock</button><button class="modal-btn-secondary" onclick="userApp.closeModal('buyModal')">Cancel</button></div></div></div>
+<div id="contactModal" class="modal-overlay"><div class="modal-window"><i class="fab fa-whatsapp fa-2x" style="color:#25D366;"></i><h3 style="font-family: var(--font-hacker); color:var(--text-primary);">Buy XP</h3><a id="whatsappLinkDynamic" href="#" target="_blank" class="settings-btn" style="text-decoration:none; margin:1rem 0; display:block;">Chat on WhatsApp</a><button class="modal-btn-secondary" onclick="userApp.closeModal('contactModal')">Close</button></div></div>
+<div id="settingsModal" class="modal-overlay"><div class="modal-window"><i class="fas fa-sliders-h" style="font-size:1.8rem; color:var(--gold-primary);"></i><h3 style="margin:0.5rem 0; font-family: var(--font-hacker);">Settings</h3><button class="settings-btn" onclick="userApp.joinWhatsAppChannel()"><i class="fab fa-whatsapp"></i> Join WhatsApp Channel</button><button class="settings-btn" onclick="userApp.logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</button><button class="modal-btn-secondary" onclick="userApp.closeModal('settingsModal')">Close</button><div class="credit-text"> Powered by <strong> AYUB KHAN </strong></div></div></div>
+<div id="toastMsg" style="display:none; position:fixed; bottom:100px; left:50%; transform:translateX(-50%); background:var(--surface-1); color:var(--text-primary); border:1px solid var(--border-strong); padding:6px 18px; border-radius:40px; z-index:2200; font-family: var(--font-hacker); box-shadow:0 0 20px var(--glow-gold);"></div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDDodepgX09NobZJpmlILI7erSeN5Fl8fc",
+  authDomain: "ayub-toolkit.firebaseapp.com",
+  databaseURL: "https://ayub-toolkit-default-rtdb.firebaseio.com",
+  projectId: "ayub-toolkit",
+  storageBucket: "ayub-toolkit.firebasestorage.app",
+  messagingSenderId: "469034199325",
+  appId: "1:469034199325:web:5d7c4070f825703548d9f4",
+  measurementId: "G-J3HRH4MH8L"
+};
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const analytics = firebase.analytics();
+    let currentUser = { uid: null, xp: 0, name: '', email: '' };
+    let allToolsArray = [], currentTab = 'free', selectedToolForBuy = null;
+    let loginAttempts = 0;
+    let lastLoginAttempt = 0;
+    let searchTimeout = null;
+    
+    function showToast(msg) { 
+        const t = document.getElementById('toastMsg'); 
+        t.innerText = msg; 
+        t.style.display = 'block'; 
+        setTimeout(() => t.style.display = 'none', 2500); 
+    }
+
+    function logEvent(eventName, params = {}) {
+        try {
+            analytics.logEvent(eventName, params);
+        } catch(e) {}
+    }
+
+    // Theme functions
+    const themes = ['dark', 'ice'];
+    function setTheme(theme) {
+        document.body.classList.remove(...themes);
+        document.body.classList.add(theme);
+        localStorage.setItem('ayub_theme', theme);
+        document.getElementById('themeDropdown').classList.remove('open');
+        document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
+        const activeOpt = document.querySelector(`.theme-option[onclick="setTheme('${theme}')"]`);
+        if (activeOpt) activeOpt.classList.add('active');
+    }
+    window.setTheme = setTheme;
+
+    function toggleThemeDropdown() {
+        document.getElementById('themeDropdown').classList.toggle('open');
+    }
+    window.toggleThemeDropdown = toggleThemeDropdown;
+
+    document.addEventListener('click', function(e) {
+        const dropdown = document.getElementById('themeDropdown');
+        const switcherWrap = document.querySelector('.theme-switcher-wrap');
+        if (dropdown && switcherWrap && !switcherWrap.contains(e.target) && dropdown.classList.contains('open')) {
+            dropdown.classList.remove('open');
+        }
+    });
+
+    function getLevel(xp) {
+        if (xp >= 5000) return { name: 'Diamond', class: 'level-diamond' };
+        if (xp >= 1000) return { name: 'Gold', class: 'level-gold' };
+        if (xp >= 300) return { name: 'Silver', class: 'level-silver' };
+        return { name: 'Bronze', class: 'level-bronze' };
+    }
+
+    function updateLevelBadge(xp) {
+        const level = getLevel(xp);
+        const badge = document.getElementById('levelBadge');
+        if (badge) {
+            badge.innerText = level.name;
+            badge.className = 'level-badge ' + level.class;
+            badge.style.marginLeft = '8px';
+        }
+        const sidebarLevel = document.getElementById('sidebarLevel');
+        if (sidebarLevel) sidebarLevel.innerText = level.name;
+    }
+
+    function isRateLimited() {
+        const now = Date.now();
+        if (now - lastLoginAttempt < 10000 && loginAttempts >= 5) {
+            return true;
+        }
+        return false;
+    }
+    
+    const uiAuth = {
+        showLogin() { 
+            document.getElementById('loginPanel').classList.remove('hidden'); 
+            document.getElementById('registerPanel').classList.add('hidden'); 
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); 
+            event.target.classList.add('active'); 
+        },
+        showRegister() { 
+            document.getElementById('registerPanel').classList.remove('hidden'); 
+            document.getElementById('loginPanel').classList.add('hidden'); 
+            event.target.classList.add('active'); 
+        },
+        async registerUser() { 
+            const name = document.getElementById('regName').value.trim(); 
+            const email = document.getElementById('regEmail').value.trim(); 
+            const pass = document.getElementById('regPass').value; 
+            const referralCode = document.getElementById('regReferral').value.trim();
+            if(!name || !email || !pass){ 
+                document.getElementById('authMsg').innerText = 'All fields required'; 
+                return; 
+            } 
+            const uid = btoa(email).replace(/[^a-zA-Z0-9]/g,''); 
+            const snap = await db.ref(`users/${uid}`).once('value'); 
+            if(snap.exists()){ 
+                document.getElementById('authMsg').innerText = 'User exists, login instead'; 
+                return; 
+            } 
+            let bonusXp = 100;
+            if (referralCode) {
+                const referrerSnap = await db.ref(`users/${referralCode}`).once('value');
+                if (referrerSnap.exists()) {
+                    bonusXp += 30;
+                    const referrerXp = referrerSnap.val().xp || 0;
+                    await db.ref(`users/${referralCode}`).update({ xp: referrerXp + 30 });
+                    logEvent('referral_used', { referrer: referralCode });
+                }
+            }
+            await db.ref(`users/${uid}`).set({ name, email, password: pass, xp: bonusXp, createdAt: Date.now(), referralCode: uid }); 
+            showToast(`✅ Registered! +${bonusXp} XP`); 
+            logEvent('sign_up', { method: 'email' });
+            this.afterLogin(uid, name, email); 
+        },
+        async loginUser() { 
+            if (isRateLimited()) {
+                document.getElementById('authMsg').innerText = 'Too many attempts. Try again in 10 seconds.';
+                return;
+            }
+            const email = document.getElementById('loginEmail').value.trim(); 
+            const pass = document.getElementById('loginPass').value; 
+            const uid = btoa(email).replace(/[^a-zA-Z0-9]/g,''); 
+            const snap = await db.ref(`users/${uid}`).once('value'); 
+            if(snap.exists() && snap.val().password === pass){ 
+                loginAttempts = 0;
+                lastLoginAttempt = 0;
+                logEvent('login', { method: 'email' });
+                this.afterLogin(uid, snap.val().name, email); 
+            } else { 
+                loginAttempts++;
+                lastLoginAttempt = Date.now();
+                document.getElementById('authMsg').innerText = 'Invalid credentials'; 
+            } 
+        },
+        async resetPassword() {
+            const email = document.getElementById('resetEmail').value.trim();
+            if (!email) {
+                showToast('❌ Enter email address');
+                return;
+            }
+            const uid = btoa(email).replace(/[^a-zA-Z0-9]/g,'');
+            const snap = await db.ref(`users/${uid}`).once('value');
+            if (snap.exists()) {
+                showToast('✅ Reset instructions sent to your email');
+                logEvent('password_reset_request', { email: email });
+                userApp.closeModal('forgotPasswordModal');
+            } else {
+                showToast('❌ Email not found');
+            }
+        },
+        afterLogin(uid, name, email) { 
+            currentUser.uid = uid; 
+            currentUser.name = name; 
+            currentUser.email = email; 
+            localStorage.setItem('mh_session', JSON.stringify({uid, name, email})); 
+            document.getElementById('authWrapper').classList.add('hidden'); 
+            document.getElementById('mainApp').classList.remove('hidden'); 
+            document.getElementById('bottomNav').classList.remove('hidden'); 
+            document.getElementById('userNameDisplay').innerText = name; 
+            document.getElementById('sidebarName').innerText = name; 
+            this.loadUserData(); 
+            userApp.init(); 
+        },
+        loadUserData() { 
+            db.ref(`users/${currentUser.uid}/xp`).on('value', snap => { 
+                currentUser.xp = snap.val() || 0; 
+                document.getElementById('xpBalanceHeader').innerHTML = currentUser.xp + ' XP'; 
+                document.getElementById('heroXpValue').innerText = currentUser.xp; 
+                document.getElementById('sidebarXp').innerText = currentUser.xp + ' XP'; 
+                updateLevelBadge(currentUser.xp);
+                userApp.renderTools(); 
+            }); 
+        }
+    };
+    
+    const userApp = {
+        init() { 
+            this.fetchData(); 
+            document.getElementById('themeSwitcher').onclick = () => toggleThemeDropdown(); 
+            document.getElementById('contactAdminBtn').onclick = () => this.openContact(); 
+            document.getElementById('forgotPasswordBtn').onclick = () => this.openForgotPassword();
+            this.applySavedTheme();
+            this.initAutocomplete();
+        },
+        applySavedTheme() {
+            const saved = localStorage.getItem('ayub_theme');
+            if (themes.includes(saved)) {
+                setTheme(saved);
+            } else {
+                setTheme('ice');
+            }
+        },
+        initAutocomplete() {
+            const searchInput = document.getElementById('searchToolsInput');
+            const dropdown = document.getElementById('autocompleteDropdown');
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    const query = searchInput.value.toLowerCase();
+                    if (query.length < 1) {
+                        dropdown.classList.remove('open');
+                        return;
+                    }
+                    const matches = allToolsArray.filter(t => t.name.toLowerCase().includes(query)).slice(0, 5);
+                    if (matches.length > 0) {
+                        dropdown.innerHTML = matches.map(t => `<div class="autocomplete-item" onclick="userApp.selectAutocomplete('${t.name}')">${t.name}</div>`).join('');
+                        dropdown.classList.add('open');
+                    } else {
+                        dropdown.classList.remove('open');
+                    }
+                }, 300);
+            });
+            document.addEventListener('click', (e) => {
+                if (e.target !== searchInput && !dropdown.contains(e.target)) {
+                    dropdown.classList.remove('open');
+                }
+            });
+        },
+        selectAutocomplete(name) {
+            document.getElementById('searchToolsInput').value = name;
+            document.getElementById('autocompleteDropdown').classList.remove('open');
+            this.renderTools();
+        },
+        showXpPackages() {
+            document.getElementById('xpPackagesModal').classList.add('open');
+            logEvent('xp_packages_view');
+        },
+        async purchaseXp(amount) {
+            const price = amount === 100 ? 50 : amount === 500 ? 200 : amount === 1000 ? 350 : amount === 5000 ? 1500 : 0;
+            showToast(`📱 Send Rs. ${price} to 03177473473 (Easypaisa)`);
+            logEvent('xp_purchase_initiated', { amount: amount, price: price });
+            setTimeout(() => {
+                showToast('✅ Contact admin to confirm your payment');
+                this.openContact();
+            }, 1500);
+        },
+        copyReferralLink() {
+            const referralLink = `https://ayub-toolkit.firebaseapp.com/?ref=${currentUser.uid}`;
+            navigator.clipboard.writeText(referralLink).then(() => {
+                showToast('✅ Referral link copied! Share with friends.');
+                logEvent('referral_link_copied');
+            });
+        },
+        openForgotPassword() {
+            document.getElementById('forgotPasswordModal').classList.add('open');
+        },
+        goHome() {
+            document.getElementById('authWrapper').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            document.getElementById('bottomNav').classList.remove('hidden');
+            document.querySelectorAll('.nav-icon').forEach(i => i.classList.remove('active'));
+            const homeBtn = document.querySelectorAll('.nav-icon')[0];
+            if (homeBtn) homeBtn.classList.add('active');
+        },
+        openSidebar() {
+            document.getElementById('sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('open');
+            document.querySelectorAll('.nav-icon').forEach(i => i.classList.remove('active'));
+            const menuBtn = document.querySelectorAll('.nav-icon')[1];
+            if (menuBtn) menuBtn.classList.add('active');
+        },
+        closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('open');
+        },
+        showCategories() {
+            currentTab = 'categories';
+            document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            this.renderCategories();
+        },
+        renderCategories() {
+            const categories = {};
+            allToolsArray.forEach(tool => {
+                const cat = tool.category || 'Other';
+                if (!categories[cat]) categories[cat] = [];
+                categories[cat].push(tool);
+            });
+            const grid = document.getElementById('toolsGrid');
+            let html = '';
+            for (const [cat, tools] of Object.entries(categories)) {
+                html += `<div style="margin-bottom:1.5rem;"><h3 style="font-family: var(--font-hacker); color:var(--gold-primary); margin-bottom:0.8rem;">${cat}</h3>`;
+                html += tools.map(tool => this.renderToolCard(tool)).join('');
+                html += '</div>';
+            }
+            grid.innerHTML = html;
+        },
+        fetchData() { 
+            // Skeleton loading
+            const grid = document.getElementById('toolsGrid');
+            grid.innerHTML = '<div class="skeleton" style="height:200px; margin-bottom:1rem;"></div><div class="skeleton" style="height:200px; margin-bottom:1rem;"></div><div class="skeleton" style="height:200px;"></div>';
+            
+            // Fetch tools
+            db.ref('products').on('value', snap => { 
+                const data = snap.val() || {}; 
+                allToolsArray = Object.keys(data).map(k => ({id: k, ...data[k]})); 
+                this.renderTools(); 
+            }); 
+            
+            // Fetch banners - FIXED with proper error handling
+            db.ref('thumbnails').on('value', snap => { 
+                const bannersData = snap.val() || {}; 
+                const bannersArray = Object.keys(bannersData).map(key => ({id: key, ...bannersData[key]}));
+                this.renderBanners(bannersArray);
+            }); 
+        },
+        
+        renderBanners(banners) {
+            const bannerDiv = document.getElementById('bannerSlider');
+            if(!bannerDiv) return;
+            
+            if(!banners || banners.length === 0) {
+                bannerDiv.innerHTML = '<div style="background:var(--surface-2); padding:1rem; text-align:center; border-radius:1.2rem; color:var(--text-muted); font-family: var(--font-hacker);">📢 No active banner</div>';
+                return;
+            }
+            
+            // Filter out invalid banners
+            const validBanners = banners.filter(b => b.image && b.image.trim() !== '');
+            
+            if(validBanners.length === 0) {
+                bannerDiv.innerHTML = '<div style="background:var(--surface-2); padding:1rem; text-align:center; border-radius:1.2rem; color:var(--text-muted); font-family: var(--font-hacker);">📢 No active banner</div>';
+                return;
+            }
+            
+            // Create banners HTML
+            let bannersHTML = '';
+            validBanners.forEach(banner => {
+                const redirectUrl = banner.redirect && banner.redirect !== '#' ? banner.redirect : '#';
+                bannersHTML += `
+                    <div class="banner-slider-container" style="margin-bottom: 0.8rem;">
+                        <img src="${banner.image}" 
+                             class="banner-image" 
+                             alt="Banner" 
+                             loading="lazy"
+                             onclick="window.open('${redirectUrl}', '_blank')"
+                             onerror="this.src='https://placehold.co/600x200/1a2e2c/2dd4bf?text=Image+Not+Found'; this.style.opacity='0.7'">
+                    </div>
+                `;
+            });
+            bannerDiv.innerHTML = bannersHTML;
+        },
+        
+        showFree() { 
+            currentTab = 'free'; 
+            document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active')); 
+            event.target.classList.add('active'); 
+            this.renderTools(); 
+        },
+        showPaid() { 
+            currentTab = 'paid'; 
+            document.querySelectorAll('.tool-tab').forEach(t => t.classList.remove('active')); 
+            event.target.classList.add('active'); 
+            this.renderTools(); 
+        },
+        renderToolCard(tool) {
+            const isUnlocked = localStorage.getItem(`unlock_${tool.id}_${currentUser.uid}`) && (Date.now() - parseInt(localStorage.getItem(`unlock_${tool.id}_${currentUser.uid}`)) < 48*3600000); 
+            const freeTag = (tool.type === 'free' || tool.isFree); 
+            const toolImage = tool.image && tool.image.trim() !== '' ? tool.image : 'https://placehold.co/300x200/1a2e2c/2dd4bf?text=Tool+Image';
+            const categoryTag = tool.category ? `<span class="badge-free" style="margin-left:8px;">${tool.category}</span>` : '';
+            return `<div class="tool-card">
+                        <img src="${toolImage}" class="tool-image" loading="lazy" onerror="this.src='https://placehold.co/300x200/1a2e2c/2dd4bf?text=No+Image'">
+                        <div><h3 style="font-size:1rem; color:var(--text-primary); font-weight:600;">${tool.name}${categoryTag}</h3><p style="font-size:0.7rem; opacity:0.7; color:var(--text-secondary);">${tool.description || ''}</p></div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.8rem;">
+                            <span>${freeTag ? '<span class="badge-free">FREE</span>' : `<i class="fas fa-coins" style="color:var(--gold-primary);"></i> ${tool.xpPrice || 100} XP`}</span>
+                            ${isUnlocked ? `<button class="tool-unlock-btn" onclick="window.open('${tool.downloadLink}', '_blank')">Access</button>` : `<button class="tool-unlock-btn" onclick="userApp.buyTool('${tool.id}')">${freeTag ? 'Get Now' : 'Unlock'}</button>`}
+                        </div>
+                    </div>`; 
+        },
+        renderTools() { 
+            const search = document.getElementById('searchToolsInput')?.value.toLowerCase() || ''; 
+            let filtered = allToolsArray.filter(t => { 
+                const isFree = t.type === 'free' || t.isFree === true; 
+                if(currentTab === 'free' && !isFree) return false; 
+                if(currentTab === 'paid' && isFree) return false; 
+                if(currentTab === 'categories') return true;
+                return t.name.toLowerCase().includes(search); 
+            }); 
+            const grid = document.getElementById('toolsGrid'); 
+            if(!filtered.length){ 
+                grid.innerHTML = '<div style="text-align:center; padding:2rem; color:var(--text-muted); font-family: var(--font-hacker);">✨ No tools</div>'; 
+                return; 
+            } 
+            grid.innerHTML = filtered.map(tool => this.renderToolCard(tool)).join(''); 
+        },
+        buyTool(toolId){ 
+            const tool = allToolsArray.find(t => t.id === toolId); 
+            if(!tool) return; 
+            if(tool.type === 'free' || tool.isFree === true){ 
+                localStorage.setItem(`unlock_${tool.id}_${currentUser.uid}`, Date.now()); 
+                showToast(`✨ ${tool.name} unlocked FREE`); 
+                logEvent('tool_unlocked_free', { tool_name: tool.name });
+                this.renderTools(); 
+                window.open(tool.downloadLink, '_blank'); 
+                return; 
+            } 
+            if(currentUser.xp >= (tool.xpPrice || 100)){ 
+                selectedToolForBuy = tool; 
+                document.getElementById('buyXpCost').innerText = tool.xpPrice || 100; 
+                document.getElementById('buyModal').classList.add('open'); 
+            } else { 
+                showToast(`❌ Need ${tool.xpPrice || 100} XP`); 
+                this.openContact(); 
+            } 
+        },
+        async confirmPurchase() { 
+            if(!selectedToolForBuy) return; 
+            const cost = selectedToolForBuy.xpPrice || 100; 
+            await db.ref(`users/${currentUser.uid}/xp`).transaction(v => (v || 0) >= cost ? (v - cost) : v); 
+            localStorage.setItem(`unlock_${selectedToolForBuy.id}_${currentUser.uid}`, Date.now()); 
+            showToast(`✅ Unlocked ${selectedToolForBuy.name}`); 
+            logEvent('tool_purchased', { tool_name: selectedToolForBuy.name, cost: cost });
+            this.closeModal('buyModal'); 
+            this.renderTools(); 
+            window.open(selectedToolForBuy.downloadLink, '_blank'); 
+            selectedToolForBuy = null; 
+        },
+        async openContact() { 
+            const snap = await db.ref('settings/contactNumber').once('value'); 
+            const number = snap.val() || '+923177473473'; 
+            const clean = number.replace(/\D/g,''); 
+            document.getElementById('whatsappLinkDynamic').href = `https://wa.me/${clean}?text=Need XP for AYUB Toolkit`; 
+            document.getElementById('contactModal').classList.add('open'); 
+        },
+        async joinWhatsAppChannel() { 
+            const snap = await db.ref('settings/whatsappChannel').once('value'); 
+            const link = snap.val() || 'https://whatsapp.com/channel/'; 
+            window.open(link,'_blank'); 
+        },
+        openSettingsPanel() { 
+            document.getElementById('settingsModal').classList.add('open'); 
+        },
+        closeModal(id) { 
+            document.getElementById(id).classList.remove('open'); 
+        },
+        switchTabHome() { 
+            document.querySelectorAll('.nav-icon').forEach(i => i.classList.remove('active')); 
+            event.target.closest('.nav-icon').classList.add('active'); 
+        },
+        logoutUser() { 
+            localStorage.removeItem('mh_session'); 
+            logEvent('logout');
+            location.reload(); 
+        }
+    };
+    
+    // Check for existing session
+    const session = localStorage.getItem('mh_session'); 
+    if(session){ 
+        const {uid, name, email} = JSON.parse(session); 
+        currentUser.uid = uid; 
+        currentUser.name = name; 
+        currentUser.email = email || ''; 
+        document.getElementById('authWrapper').classList.add('hidden'); 
+        document.getElementById('mainApp').classList.remove('hidden'); 
+        document.getElementById('bottomNav').classList.remove('hidden'); 
+        document.getElementById('userNameDisplay').innerText = name; 
+        document.getElementById('sidebarName').innerText = name; 
+        uiAuth.loadUserData(); 
+        userApp.init(); 
+    } else {
+        userApp.applySavedTheme();
+    }
+    
+    // Check for referral in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const referralParam = urlParams.get('ref');
+    if (referralParam) {
+        localStorage.setItem('pendingReferral', referralParam);
+        const regReferralInput = document.getElementById('regReferral');
+        if (regReferralInput) regReferralInput.value = referralParam;
+    }
+    
+    window.uiAuth = uiAuth; 
+    window.userApp = userApp;
+</script>
+</body>
+</html>
